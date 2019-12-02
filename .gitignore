@@ -1,9 +1,46 @@
+
+# Created by https://www.gitignore.io/api/r,adobe,microsoftoffice
+# Edit at https://www.gitignore.io/?templates=r,adobe,microsoftoffice
+
+### Adobe ###
+# Adobe Source Files
+*.psd
+*.ai
+*.indd
+*.prproj
+*.aep
+
+### MicrosoftOffice ###
+*.tmp
+
+# Word temporary
+~$*.doc*
+
+# Word Auto Backup File
+Backup of *.doc*
+
+# Excel temporary
+~$*.xls*
+
+# Excel Backup File
+*.xlk
+
+# PowerPoint temporary
+~$*.ppt*
+
+# Visio autosave temporary files
+*.~vsd*
+
+### R ###
 # History files
 .Rhistory
 .Rapp.history
 
 # Session Data files
 .RData
+
+# User-specific files
+.Ruserdata
 
 # Example code in package build process
 *-Ex.R
@@ -26,6 +63,7 @@ vignettes/*.pdf
 
 # knitr and R markdown default cache directories
 /*_cache/
+*_cache/
 /cache/
 
 # Temporary files created by R markdown
@@ -34,3 +72,8 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+### R.Bookdown Stack ###
+# R package: bookdown caching files
+/*_files/
+
+# End of https://www.gitignore.io/api/r,adobe,microsoftoffice
