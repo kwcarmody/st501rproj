@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Part I: Visualizing Convergence in Probability 
 #
-##### Show that the minimum order statistic converges in probability to 0. 
+##### Q1: Show that the minimum order statistic converges in probability to 0. 
 
 
 Let $Y_i \sim exp(1)$ for $i = 1,2,...,n$, since $\lambda=1$, the PDFs are defined as: 
@@ -38,7 +38,7 @@ The support of $Y_{(1)}$ is the same as $Y$: $0 < y < \infty$, thus $| Y_{(1)} -
 Since $\epsilon > 0$ by definition, then $F_{Y_{(1)}}(\epsilon) = 1 - e^{-n\epsilon}$ for all values of $\epsilon$. The $\lim_{n\to\infty} F_{Y_{(1)}}(\epsilon) = \lim_{n\to\infty}(1 - e^{-n\epsilon}) = 1$. Therefore, $\lim_{n\to\infty} P(|Y_{(1)} - 0| < \epsilon) = 1$ and $Y_{(1)}$ converges to infinity.
 
 ***
-##### Visualize and approximate the probability statement above. 
+##### Q2-5: Visualize and approximate the probability statement above. 
 
 ```{r, echo=TRUE}
 set.seed(10)
@@ -72,10 +72,38 @@ for (i in 1:length(n)) {
   p1convprob[[i]] = sum(abs(p1min[[i]]-0) < eps)/N
 }
 
+
+
+
+```
+
+
+***
+##### Q5: Create a plot with the sample size on the x-axis and the probability of interest on the y-axis. 
+
+
+```{r, echo=TRUE}
+
 #Plot sample size vs. probability computed above
 plot(x = 1:length(n), y = p1convprob, main = "Min exp(1) distribution approaches 0 as n increases.",
      xlab = "Sample Size", ylab = "Probability of Minimum Within 0.05 of Zero", ylim = c(0.0, 1.1), cex = 0.5)
 abline(h=1, col = "blue")
+
+
+```
+
+***
+##### Q6: Explain how the plot above can help someone understand convergence in probability to a constant.
+
+Per the plot, we see that as the sample size increases, the probability of being within the 0.5 boundary increases. If the sample size were to continue to increase, we'd get closer and closer values to 1. Thus, it illustrates that as our sample size increase, so does the probability and if we were to increase to infinity the probability would converge to 1.
+
+
+***
+##### Q7: Create a plot with the sample size on the x-axis and the values of the minimum on the y-axis. 
+
+
+```{r, echo=TRUE}
+
 
 #Plot distribution of minimums for each sample size
 plotdata = matrix(0, nrow = 0, ncol = 2)
@@ -86,7 +114,14 @@ for (x in 1:length(n)) {
 plot(plotdata, main = "Distribution of Minimums With Increasing Sample Size",
      xlab = "Sample Size", ylab = "Sample Minimums", cex = 0.5)
 
+
 ```
+
+***
+##### Q8: Explain how the plot above can help someone understand convergence in probability to a constant.
+
+Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the upper bound continues to dicrease, ultimately converging to 0, should n increase to infinity.
+
 
 ***
 ### Part II: Visualizing Convergence in Distribution 
