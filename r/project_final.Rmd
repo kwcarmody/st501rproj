@@ -1,0 +1,164 @@
+---
+title: "ST501: Group K - R Project"
+author: "Yun Ji, Sarah McLaughlin, Kevin Carmody"
+date: "12/1/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Part I: Visualizing Convergence in Probability 
+#
+##### Show that the minimum order statistic converges in probability to 0. 
+
+
+Let $Y_i \sim exp(1)$ for $i = 1,2,...,n$, since $\lambda=1$, the PDFs are defined as: 
+$$f_{Y_i}(y) = f_{Y}(y) = e^{-y} \textrm{ for } 0 < y < \infty.$$
+The CDF would be defined as: 
+$$F_Y(y) = \left\{
+                \begin{array}{ll}
+                  1-e^{-y} & 0 < y < \infty  \\
+                  0 & \textrm{o.w.}
+                \end{array}
+              \right.$$
+              
+With the minimum order statistic:
+$$F_{Y_{(1)}}(y) = \left\{
+                \begin{array}{ll}
+                  1-(1-F_Y(y))^n = 1-e^{-ny} & 0 < y < \infty  \\
+                  0 & \textrm{o.w.}
+                \end{array}
+              \right.$$
+
+
+The support of $Y_{(1)}$ is the same as $Y$: $0 < y < \infty$, thus $| Y_{(1)} - 0 | = Y_{(1)} - 0$, and $P(|Y_{(1)} - 0| < \epsilon)=P(Y_{(1)} - 0 < \epsilon) = P(Y_{(1)} < \epsilon) = F_{Y_{(1)}}(\epsilon)$.
+
+Since $\epsilon > 0$ by definition, then $F_{Y_{(1)}}(\epsilon) = 1 - e^{-n\epsilon}$ for all values of $\epsilon$. The $\lim_{n\to\infty} F_{Y_{(1)}}(\epsilon) = \lim_{n\to\infty}(1 - e^{-n\epsilon}) = 1$. Therefore, $\lim_{n\to\infty} P(|Y_{(1)} - 0| < \epsilon) = 1$ and $Y_{(1)}$ converges to infinity.
+
+***
+##### Visualize and approximate the probability statement above. 
+
+```{r, echo=TRUE}
+set.seed(10)
+
+#Part 1: Convergence in Probability
+n = c(1:50)
+N = 1000
+
+#Initiate data structures for empicial data, minimums, and convergence probabilities
+p1data = list()
+p1min = list()
+p1convprob = list()
+
+for (i in 1:length(n)) {
+  p1data[[i]] = matrix(0, nrow = N, ncol = n[i])
+  p1min[[i]] = matrix(0, nrow = N, ncol = 1)
+  p1convprob[[i]] = 0
+}
+
+#Generate values of the exp(1) distribution and find the minimum for each sample
+for (i in 1:length(n)) {
+  for (j in 1:N) {
+    p1data[[i]][j,] = rexp(n = n[i], rate = 1)
+    p1min[[i]][j,] = min(p1data[[i]][j,])
+  }
+}
+
+#Set epsilon as 0.05 and find the proportion of abs(minimum minus 0) within this epsilon for sample sizes 1 thru 50
+eps = 0.05
+for (i in 1:length(n)) {
+  p1convprob[[i]] = sum(abs(p1min[[i]]-0) < eps)/N
+}
+
+#Plot sample size vs. probability computed above
+plot(x = 1:length(n), y = p1convprob, main = "Min exp(1) distribution approaches 0 as n increases.",
+     xlab = "Sample Size", ylab = "Probability of Minimum Within 0.05 of Zero", ylim = c(0.0, 1.1), cex = 0.5)
+abline(h=1, col = "blue")
+
+#Plot distribution of minimums for each sample size
+plotdata = matrix(0, nrow = 0, ncol = 2)
+for (x in 1:length(n)) {
+  plotdata = rbind(plotdata, cbind(rep(x,N), p1min[[x]]))
+}
+
+plot(plotdata, main = "Distribution of Minimums With Increasing Sample Size",
+     xlab = "Sample Size", ylab = "Sample Minimums", cex = 0.5)
+
+```
+
+***
+### Part II: Visualizing Convergence in Distribution 
+
+```{r, echo=TRUE}
+
+set.seed(10)
+
+#Part 2: Convergence in Distribution
+lambda = c(1,5,25)
+n = c(5,10,30,100)
+N = 50000
+
+#Initiate data structures for empicial data, means, empirical & derived probabilities
+p2data = list()
+p2mean = list()
+p2empprob = list()
+p2derprob = list()
+
+for (l in 1:length(lambda)) {
+  p2data[[l]] = list()
+  p2mean[[l]] = list()
+  p2empprob[[l]] = list()
+  p2derprob[[l]] = list()
+  for (i in 1:length(n)) {
+    p2data[[l]][[i]] = matrix(0, nrow = N, ncol = n[i])
+    p2mean[[l]][[i]] = matrix(0, nrow = N, ncol = 1)
+    p2empprob[[l]][[i]] = 0
+    p2derprob[[l]][[i]] = 0
+  }
+}
+
+#Generate values of the Poi(lambda) distributions and compute their means for every combination of lambda and sample size
+for (l in 1:length(lambda)) {
+  for (i in 1:length(n)) {
+    for (j in 1:N) {
+      p2data[[l]][[i]][j,] = rpois(n = n[i], lambda = lambda[l])
+    }
+    p2mean[[l]][[i]] = rowMeans(p2data[[l]][[i]])
+  }
+}
+
+#Plot empirical vs. derived (normal) distributions for means
+for (l in 1:length(lambda)) {
+  for (i in 1:length(n)) {
+    mu = lambda[l]
+    sigma = sqrt(lambda[l]/n[i])
+    start = min(p2mean[[l]][[i]])
+    end = max(p2mean[[l]][[i]])
+    steps = 1/n[i]
+    hist(p2mean[[l]][[i]], breaks = seq(from = start-steps/2, to = end+steps/2, by = steps), 
+         main = sprintf("lambda = %d & n = %d", lambda[l], n[i]), freq = FALSE, xlab = "Sample Mean")
+    curve(1/(sigma*sqrt(2*pi))*exp(-(x-mu)^2/(2*sigma^2)), from = start-steps/2, to = end+steps/2, 
+          add = TRUE, lwd = 2, col = "blue")
+  }
+}
+
+#For every lambda/sample size combination, compute proportion of empirical means ge lambda+2*sqrt(lambda/n) and compare to normal probability
+for (l in 1:length(lambda)) {
+  for (i in 1:length(n)) {
+    mu = lambda[l]
+    sigma = sqrt(lambda[l]/n[i])
+    steps = 1/n[i]
+    p2empprob[[l]][[i]] = sum(p2mean[[l]][[i]] >= mu+2*sigma-steps/2)/N
+    p2derprob[[l]][[i]] = pnorm(q = mu+2*sigma, mean = mu, sd = sigma, lower.tail = FALSE)
+    print(sprintf("For lambda = %-2d and n = %-3d the empirical prob is %-1.5f and the normal prob is %-1.5f",
+                  lambda[l], n[i], p2empprob[[l]][[i]], p2derprob[[l]][[i]]))
+  }
+}
+
+
+```
+
+
+
