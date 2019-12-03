@@ -35,7 +35,7 @@ $$F_{Y_{(1)}}(y) = \left\{
 
 The support of $Y_{(1)}$ is the same as $Y$: $0 < y < \infty$, thus $| Y_{(1)} - 0 | = Y_{(1)} - 0$, and $P(|Y_{(1)} - 0| < \epsilon)=P(Y_{(1)} - 0 < \epsilon) = P(Y_{(1)} < \epsilon) = F_{Y_{(1)}}(\epsilon)$.
 
-Since $\epsilon > 0$ by definition, then $F_{Y_{(1)}}(\epsilon) = 1 - e^{-n\epsilon}$ for all values of $\epsilon$. The $\lim_{n\to\infty} F_{Y_{(1)}}(\epsilon) = \lim_{n\to\infty}(1 - e^{-n\epsilon}) = 1$. Therefore, $\lim_{n\to\infty} P(|Y_{(1)} - 0| < \epsilon) = 1$ and $Y_{(1)}$ converges to infinity.
+Since $\epsilon > 0$ by definition, then $F_{Y_{(1)}}(\epsilon) = 1 - e^{-n\epsilon}$ for all values of $\epsilon$. The $\lim_{n\to\infty} F_{Y_{(1)}}(\epsilon) = \lim_{n\to\infty}(1 - e^{-n\epsilon}) = 1$. Therefore, $\lim_{n\to\infty} P(|Y_{(1)} - 0| < \epsilon) = 1$ and $Y_{(1)}$ converges in probability to $0$.
 
 ***
 ##### 1.2-5) Visualize and approximate the probability statement above. 
