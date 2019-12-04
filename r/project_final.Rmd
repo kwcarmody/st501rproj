@@ -96,7 +96,11 @@ abline(h=1, col = "blue")
 ***
 ##### 1.6) Explain how the plot above can help someone understand convergence in probability to a constant.
 
-Per the plot, we see that as the sample size increases, the probability of being within the 0.05 boundary increases. If the sample size were to continue to increase, we'd get closer and closer values to 1. Thus, it illustrates that as our sample size increases, so does the probability and if we were to increase to infinity the probability would converge to 1.
+The convergence in probability definition states that a sequence of random variables (in this case, the minimums from random samples of the exp(1) distribution) converges to some random variable as the sample size grows. In this simulation, we show that as the sample size of an exp(1) distribution grows, the minimum converges to 0. As the sample size increases, the distribution of the minimum of the sample becomes more and more concentrated about 0. The graph created displays how the probability that the minimum of the sample is "close" (within the epsilon value of 0.05) to zero converges to 1. 
+
+```{md}
+(This is the old answer. I'll remove after any edits to Draft #2) Per the plot, we see that as the sample size increases, the probability of being within the 0.05 boundary increases. If the sample size were to continue to increase, we'd get closer and closer values to 1. Thus, it illustrates that as our sample size increases, so does the probability and if we were to increase to infinity the probability would converge to 1.
+```
 
 
 ***
@@ -120,8 +124,12 @@ plot(plotdata, main = "Distribution of Minimums With Increasing Sample Size",
 
 ***
 ##### 1.8) Explain how the plot above can help someone understand convergence in probability to a constant.
+In the graph, as n increases, the distribution of the sample minimum becomes more concentrated towards 0. As n approaches infinity, the minimum of each random sample will converge to 0. 
 
-Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the upper bound continues to decrease, ultimately converging to 0, should n increase to infinity.
+
+```{md}
+(This is the old answer. I'll remove after any edits to Draft #2) Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the upper bound continues to decrease, ultimately converging to 0, should n increase to infinity.
+```
 
 
 ***
@@ -199,11 +207,11 @@ for (l in 1:length(lambda)) {
 
 ***
 ##### 2.4) How do the plots and probabilities above help someone understand convergence in distribution?
-Lorem ipsum dolor sunt amet locquitur.
+The 12 plots above exhibit the Central Limit Theorem which states the distribution of the mean of a Random Variable sample ($\bar Y$) is well approximated by the Normal Distribution with mean $= \lambda$ and variance $= \lambda/n$. We ran the simulation with three different lambdas (1, 5, 25) with four different sample sizes (5, 10, 30, 100). For each of the lambdas, as n increased, the distribution of ($\bar Y$) was better approximated by the Normal($\lambda$, $\lambda/n$). 
 
 ***
 ##### 2.5) Why do you think the large-sample approximation works better for larger $\lambda$ values?
-Lorem ipsum dolor sunt amet locquitur.
+For the Poisson Distribution, as $\lambda$ increases, the distribution becomes more Normal. If the random samples are being taken from a parent population that can be better approximated by the Normal Distribution, the distribution of the sample means will also be Normal. This is why the $\lambda=25$ sample mean distribution looks Normal at a sample size of 5 while the $\lambda=1$ does not look Normal at the same sample size. 
 
 
 
