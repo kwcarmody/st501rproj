@@ -44,10 +44,11 @@ Since $\epsilon > 0$ by definition, then $F_{Y_{(1)}}(\epsilon) = 1 - e^{-n\epsi
 set.seed(10)
 
 #Part 1: Convergence in Probability
+#Initiate set of sample sizes (n) and number of data sets to generate for each sample size (N)
 n = c(1:50)
 N = 1000
 
-#Initiate data structures for empicial data, minimums, and convergence probabilities
+#Initiate data structures for empirical data, minimums, and convergence probabilities
 p1data = list()
 p1min = list()
 p1convprob = list()
@@ -95,7 +96,7 @@ abline(h=1, col = "blue")
 ***
 ##### 1.6) Explain how the plot above can help someone understand convergence in probability to a constant.
 
-Per the plot, we see that as the sample size increases, the probability of being within the 0.5 boundary increases. If the sample size were to continue to increase, we'd get closer and closer values to 1. Thus, it illustrates that as our sample size increase, so does the probability and if we were to increase to infinity the probability would converge to 1.
+Per the plot, we see that as the sample size increases, the probability of being within the 0.05 boundary increases. If the sample size were to continue to increase, we'd get closer and closer values to 1. Thus, it illustrates that as our sample size increases, so does the probability and if we were to increase to infinity the probability would converge to 1.
 
 
 ***
@@ -120,7 +121,7 @@ plot(plotdata, main = "Distribution of Minimums With Increasing Sample Size",
 ***
 ##### 1.8) Explain how the plot above can help someone understand convergence in probability to a constant.
 
-Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the upper bound continues to dicrease, ultimately converging to 0, should n increase to infinity.
+Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the upper bound continues to decrease, ultimately converging to 0, should n increase to infinity.
 
 
 ***
@@ -132,11 +133,12 @@ Per the plot, we see that as the sample size increases, the our minimums become 
 set.seed(10)
 
 #Part 2: Convergence in Distribution
+#Initiate set of lambda parameter values, set of sample sizes (n) and number of data sets to generate for each combination of lambda and sample size (N)
 lambda = c(1,5,25)
 n = c(5,10,30,100)
 N = 50000
 
-#Initiate data structures for empicial data, means, empirical & derived probabilities
+#Initiate data structures for empirical data, means, empirical & derived probabilities
 p2data = list()
 p2mean = list()
 p2empprob = list()
@@ -172,15 +174,15 @@ for (l in 1:length(lambda)) {
     sigma = sqrt(lambda[l]/n[i])
     start = min(p2mean[[l]][[i]])
     end = max(p2mean[[l]][[i]])
-    steps = 1/n[i]
-    hist(p2mean[[l]][[i]], breaks = seq(from = start-steps/2, to = end+steps/2, by = steps), 
+    stepsize = 1/n[i]
+    hist(p2mean[[l]][[i]], breaks = seq(from = start-stepsize/2, to = end+stepsize/2, by = stepsize), 
          main = sprintf("lambda = %d & n = %d", lambda[l], n[i]), freq = FALSE, xlab = "Sample Mean")
-    curve(1/(sigma*sqrt(2*pi))*exp(-(x-mu)^2/(2*sigma^2)), from = start-steps/2, to = end+steps/2, 
+    curve(1/(sigma*sqrt(2*pi))*exp(-(x-mu)^2/(2*sigma^2)), from = start-stepsize/2, to = end+stepsize/2, 
           add = TRUE, lwd = 2, col = "blue")
   }
 }
 
-#For every lambda/sample size combination, compute proportion of empirical means ge lambda+2*sqrt(lambda/n) and compare to normal probability
+#For every lambda/sample size combination, compute proportion of empirical means greater than or equal to lambda+2*sqrt(lambda/n) and compare to normal probability
 for (l in 1:length(lambda)) {
   for (i in 1:length(n)) {
     mu = lambda[l]
@@ -188,8 +190,7 @@ for (l in 1:length(lambda)) {
     steps = 1/n[i]
     p2empprob[[l]][[i]] = sum(p2mean[[l]][[i]] >= mu+2*sigma-steps/2)/N
     p2derprob[[l]][[i]] = pnorm(q = mu+2*sigma, mean = mu, sd = sigma, lower.tail = FALSE)
-    print(sprintf("For lambda = %-2d and n = %-3d the empirical prob is %-1.5f and the normal prob is %-1.5f",
-                  lambda[l], n[i], p2empprob[[l]][[i]], p2derprob[[l]][[i]]))
+    print(sprintf("For lambda = %-2d and n = %-3d the empirical probability is %-1.5f and the normal probability is %-1.5f", lambda[l], n[i], p2empprob[[l]][[i]], p2derprob[[l]][[i]]))
   }
 }
 
