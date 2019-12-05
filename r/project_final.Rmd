@@ -38,7 +38,7 @@ The support of $Y_{(1)}$ is the same as $Y$: $0 < y < \infty$, thus $| Y_{(1)} -
 Since $\epsilon > 0$ by definition, then $F_{Y_{(1)}}(\epsilon) = 1 - e^{-n\epsilon}$ for all values of $\epsilon$. The $\lim_{n\to\infty} F_{Y_{(1)}}(\epsilon) = \lim_{n\to\infty}(1 - e^{-n\epsilon}) = 1$. Therefore, $\lim_{n\to\infty} P(|Y_{(1)} - 0| < \epsilon) = 1$ and $Y_{(1)}$ converges in probability to $0$.
 
 ***
-##### 1.2-5) Visualize and approximate the probability statement above. 
+##### 1.2-4) Visualize and approximate the probability statement above. 
 
 ```{r, echo=TRUE}
 set.seed(10)
@@ -67,7 +67,7 @@ for (i in 1:length(n)) {
   }
 }
 
-#Set epsilon as 0.05 and find the proportion of abs(minimum minus 0) within this epsilon for sample sizes 1 thru 50
+#Set epsilon as 0.05 and find the proportion of abs(minimum minus 0) within this epsilon for sample sizes 1 through 50
 eps = 0.05
 for (i in 1:length(n)) {
   p1convprob[[i]] = sum(abs(p1min[[i]]-0) < eps)/N
@@ -128,7 +128,7 @@ In the graph, as n increases, the distribution of the sample minimum becomes mor
 
 
 ```{md}
-(This is the old answer. I'll remove after any edits to Draft #2) Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the upper bound continues to decrease, ultimately converging to 0, should n increase to infinity.
+(This is the old answer. I'll remove after any edits to Draft #2) Per the plot, we see that as the sample size increases, the our minimums become less and less dispersed. As we continue increasing the sample size the range of values continues to decrease, ultimately converging to a constant 0 as n increases to infinity.
 ```
 
 
@@ -213,5 +213,8 @@ The 12 plots above exhibit the Central Limit Theorem which states the distributi
 ##### 2.5) Why do you think the large-sample approximation works better for larger $\lambda$ values?
 For the Poisson Distribution, as $\lambda$ increases, the distribution becomes more Normal. If the random samples are being taken from a parent population that can be better approximated by the Normal Distribution, the distribution of the sample means will also be Normal. This is why the $\lambda=25$ sample mean distribution looks Normal at a sample size of 5 while the $\lambda=1$ does not look Normal at the same sample size. 
 
+Yun's note: although the Poisson distribution looks symmetrical and bell-shaped at high values of $\lambda$ I'm hesitant call it approximately normal because 1) the Poisson is discrete whereas normal is continuous and 2) the mean and variance of the Poisson are both equal to $\lambda$ but the normal distribution can have different parameters for mean and variance. Instead I would say the following:
+
+At small values of $\lambda$ the Poisson Distribution exhibits significant right-skewness, but the distribution approaches left-right symmetry as the $\lambda$ parameter increases in value. Under the Central Limit Theorem, highly skewed parent populations require larger sample sizes in order for the distribution of the sample mean to approach a Normal Distribution, but as the parent population becomes more symmetrical, smaller sample sizes are needed to achieve the Normal approximation. Therefore in the above histograms where $\lambda=1$, we see that the sample mean distribution appears right skewed for samples sizes of 5 and 10, only approaching roughly Normal for sample sizes of 30 and above; whereas for $\lambda=25$ the sample mean distribution is well approximated by the Normal curve for all sample sizes, including 5.
 
 
