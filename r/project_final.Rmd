@@ -186,8 +186,8 @@ for (l in 1:length(lambda)) {
   for (i in 1:length(n)) {
     mu = lambda[l]
     sigma = sqrt(lambda[l]/n[i])
-    steps = 1/n[i]
-    p2empprob[[l]][[i]] = sum(p2mean[[l]][[i]] >= mu+2*sigma-steps/2)/N
+    stepsize = 1/n[i]
+    p2empprob[[l]][[i]] = sum(p2mean[[l]][[i]] >= mu+2*sigma-stepsize/2)/N
     p2derprob[[l]][[i]] = pnorm(q = mu+2*sigma, mean = mu, sd = sigma, lower.tail = FALSE)
     print(sprintf("For lambda = %-2d and n = %-3d the empirical probability is %-1.5f and the normal probability is %-1.5f", lambda[l], n[i], p2empprob[[l]][[i]], p2derprob[[l]][[i]]))
   }
